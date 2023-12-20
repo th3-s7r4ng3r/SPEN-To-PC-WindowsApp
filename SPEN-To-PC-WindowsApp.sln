@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SPEN-To-PC-WindowsApp", "SPEN-To-PC-WindowsApp.csproj", "{6A380B17-2C06-421C-A7BB-F68231E995DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A380B17-2C06-421C-A7BB-F68231E995DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A380B17-2C06-421C-A7BB-F68231E995DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A380B17-2C06-421C-A7BB-F68231E995DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A380B17-2C06-421C-A7BB-F68231E995DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D60C6351-0E07-49F4-BED2-89D4AEF5524D}
+	EndGlobalSection
+EndGlobal

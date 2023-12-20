@@ -1,0 +1,17 @@
+﻿<Window x:Class="SPEN_To_PC_WindowsApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SPEN_To_PC_WindowsApp"
+        mc:Ignorable="d"
+        Title="SPEN to PC" Height="357" Width="619">
+    <Grid>
+        <Label Content="This PC IP Address:" HorizontalAlignment="Center" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="IPTextLable" Content="0.0.0.0" HorizontalAlignment="Center" Margin="0,89,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="CurrentAction" Content="None" HorizontalAlignment="Center" Margin="0,266,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label Content="Current Action" HorizontalAlignment="Center" Margin="0,230,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="ConnectionStatus" Content="Connection Status : Disconnected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+
+    </Grid>
+</Window>

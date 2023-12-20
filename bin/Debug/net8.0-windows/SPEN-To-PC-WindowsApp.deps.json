@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "SPEN-To-PC-WindowsApp/1.0.0": {
+        "runtime": {
+          "SPEN-To-PC-WindowsApp.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SPEN-To-PC-WindowsApp/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
