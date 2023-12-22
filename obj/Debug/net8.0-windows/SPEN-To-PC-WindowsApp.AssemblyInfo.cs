@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SPEN-To-PC-WindowsApp")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3ef45733c41d21e3e6ea82c7c302d132efadf2b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("SPEN-To-PC-WindowsApp")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SPEN-To-PC-WindowsApp")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

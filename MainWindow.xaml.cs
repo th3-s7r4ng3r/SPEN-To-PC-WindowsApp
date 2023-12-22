@@ -1,20 +1,11 @@
-﻿using System.Net.NetworkInformation;
-using System.Net.Sockets;
-using System.Text;
-using System;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.IO;
 using System.Net;
-using System.Threading.Tasks;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows;
+
 
 namespace SPEN_To_PC_WindowsApp
 {
@@ -25,6 +16,7 @@ namespace SPEN_To_PC_WindowsApp
         private CancellationTokenSource? cancellationSource;
         private TcpClient? client;
         private NetworkStream? stream;
+        private bool isConnected = false;
 
         // Other variables
         private const int KEYEVENTF_EXTENDEDKEY = 0x0001;
@@ -83,7 +75,7 @@ namespace SPEN_To_PC_WindowsApp
 
                 IPTextLable.Content = ipAddress ?? "Not available";
             }
-            else { IPTextLable.Content = "No active network connection found!";}
+            else { IPTextLable.Content = "No active network connection found!"; }
         }
 
 
@@ -128,23 +120,55 @@ namespace SPEN_To_PC_WindowsApp
             {
                 while (!cancellationSource.Token.IsCancellationRequested)
                 {
-                    // Read incoming data continuously
-                    byte[] buffer = new byte[1024];
-                    int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
-
-                    // Process received data
-                    string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    if (receivedData == "connection reset") // Check for a special message
+                    try
                     {
-                        Console.WriteLine("Desktop app closed. Sending close signal.");
+                        // Read incoming data with a timeout
+                        byte[] buffer = new byte[1024];
+                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length); // Timeout after 1 second
+
+                        // Process received data
+                        string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                        if (receivedData == "connection closed") // Check for a special message
+                        {
+                            updateUI(false);
+                            Console.WriteLine("Desktop app closed. Sending close signal.");
+                            break;
+                        }
+                        updateUI(true);
+                        ProcessReceivedData(receivedData);
+
+                        // Send a heartbeat every 0.1 seconds
+                        await Task.Delay(100);
+                        await stream.WriteAsync(Encoding.UTF8.GetBytes("ping"));
+                    }
+                    catch (SocketException ex)
+                    {
+                        // Handle socket exceptions
+                        updateUI(false);
+                        Console.WriteLine($"Socket exception occurred: {ex.Message}");
                         break;
                     }
-                    ProcessReceivedData(receivedData);
+                    catch (IOException ex)
+                    {
+                        // Handle other I/O exceptions
+                        updateUI(false);
+                        Console.WriteLine($"I/O exception occurred: {ex.Message}");
+                        break;
+                    }
+                    catch (TimeoutException)
+                    {
+                        // Handle heartbeat timeout
+                        updateUI(false);
+                        Console.WriteLine("Heartbeat timeout. Connection lost.");
+                        break;
+                    }
                 }
             }
             catch (Exception ex)
             {
                 // Handle exceptions (e.g., if the client disconnects)
+  
+                updateUI(false);
                 Console.WriteLine($"Error handling client: {ex.Message}");
             }
             finally
@@ -152,8 +176,6 @@ namespace SPEN_To_PC_WindowsApp
                 // Cleanup resources
                 stream?.Dispose();
                 client?.Close();
-                // Inform the mobile app that the connection is closed
-                SendCloseSignalToMobileApp();
             }
         }
 
@@ -162,17 +184,20 @@ namespace SPEN_To_PC_WindowsApp
             try
             {
                 // Update UI labels and simulate arrow key presses based on received data
-                ConnectionStatus.Content = "Connection Status: Connected";
                 CurrentAction.Content = $"Click Type: {data}";
 
                 // Simulate arrow key presses based on click type
-                if (data == "Single Click")
+                if (data.Contains("Single Click"))
                 {
                     SimulateKeyPress(VK_RIGHT);
                 }
-                else if (data == "Double Click")
+                else if (data.Contains("Double Click"))
                 {
                     SimulateKeyPress(VK_LEFT);
+                }
+                if (data.Contains("ping"))
+                {
+                    stream.WriteAsync(Encoding.UTF8.GetBytes("pong"));
                 }
             }
             catch (Exception ex)
@@ -188,6 +213,21 @@ namespace SPEN_To_PC_WindowsApp
             keybd_event((byte)keyCode, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
         }
 
+        private void updateUI(bool connectionStatus)
+        {
+            isConnected = connectionStatus;
+            if (isConnected)
+            {
+                ConnectionStatus.Content = "Connection Status: Connected";
+            } else
+            {
+                ConnectionStatus.Content = "Connection Status: Disconnected";
+                CurrentAction.Content = "None:";
+            }
+        }
+
+
+
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -202,28 +242,11 @@ namespace SPEN_To_PC_WindowsApp
                     tcpListener.Stop();
                 }
 
-                // Wait for HandleClientPersistently to complete before closing the window
-                Task.WaitAll(HandleClientPersistently());
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during window closing: {ex.Message}");
             }
         }
-
-        private void SendCloseSignalToMobileApp()
-        {
-            try
-            {
-                // Inform the mobile app that the connection is closed by sending a special message
-                byte[] closeSignal = Encoding.UTF8.GetBytes("connection reset");
-                stream.Write(closeSignal, 0, closeSignal.Length);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error sending close signal: {ex.Message}");
-            }
-        }
-
     }
 }

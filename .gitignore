@@ -1,0 +1,6 @@
+
+obj/Debug/
+bin/Debug/
+.vs/
+obj/Debug/net8.0-windows/
+```
