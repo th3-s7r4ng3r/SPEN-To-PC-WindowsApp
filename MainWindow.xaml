@@ -5,13 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SPEN_To_PC_WindowsApp"
         mc:Ignorable="d"
-        Title="SPEN to PC" Height="357" Width="619">
+        Title="SPEN to PC" Height="376" Width="604">
     <Grid>
-        <Label Content="This PC IP Address:" HorizontalAlignment="Center" Margin="0,53,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <Label x:Name="IPTextLable" Content="0.0.0.0" HorizontalAlignment="Center" Margin="0,89,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label x:Name="CurrentAction" Content="None" HorizontalAlignment="Center" Margin="0,266,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <Label Content="Current Action" HorizontalAlignment="Center" Margin="0,230,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <Label x:Name="ConnectionStatus" Content="Connection Status : Disconnected" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Medium"/>
+        <Label Content="This PC IP Address:" HorizontalAlignment="Center" Margin="0,30,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="IPTextLable" Content="0.0.0.0" HorizontalAlignment="Center" Margin="0,66,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label x:Name="CurrentAction" Content="None" HorizontalAlignment="Left" Margin="109,248,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <Label Content="Current Action" HorizontalAlignment="Left" Margin="112,212,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label x:Name="ConnectionStatus" Content="Connection Status : Disconnected" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" FontWeight="Medium" Margin="0,130,0,0"/>
+        <Button x:Name="cap_singleClick" Content="Single Click" HorizontalAlignment="Left" Margin="345,249,0,0" VerticalAlignment="Top" Width="88" Height="24" Click="cap_singleClick_Click"/>
+        <Label Content="Capture Key for:" HorizontalAlignment="Left" Margin="362,212,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
+        <Button x:Name="cap_doubleClick" Content="Double Click" HorizontalAlignment="Left" Margin="345,278,0,0" VerticalAlignment="Top" Width="88" Height="24" Click="cap_doubleClick_Click"/>
+        <Label x:Name="cur_singleClick" Content="" HorizontalAlignment="Left" Margin="437,248,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="cur_doubleClick" Content="" HorizontalAlignment="Left" Margin="437,276,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

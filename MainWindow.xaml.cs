@@ -4,7 +4,9 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.Json;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace SPEN_To_PC_WindowsApp
@@ -18,11 +20,17 @@ namespace SPEN_To_PC_WindowsApp
         private NetworkStream? stream;
         private bool isConnected = false;
 
+        // Get the app's local data folder
+        private const string SettingFileName = "settings.json";
+        AppSettings appSettings = new AppSettings();
+        private bool isSingleClickCapturing = false;
+        private bool isDoubleClickCapturing = false;
+
         // Other variables
         private const int KEYEVENTF_EXTENDEDKEY = 0x0001;
         private const int KEYEVENTF_KEYUP = 0x0002;
-        private const int VK_LEFT = 0x25;  // Left arrow key
-        private const int VK_RIGHT = 0x27; // Right arrow key
+        private int singleClick = 0x25;  // Left arrow key
+        private int doubleClick = 0x27; // Right arrow key
 
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bScan, int dwFlags, IntPtr dwExtraInfo);
@@ -36,6 +44,10 @@ namespace SPEN_To_PC_WindowsApp
             InitializeTcpListener();
             cancellationSource = new CancellationTokenSource();
             StartTcpListener();
+
+            LoadSettings(); // Load settings on app startup
+            singleClick = appSettings.SingleClick;
+            doubleClick = appSettings.DoubleClick;
         }
 
         //get ip address of the pc
@@ -167,7 +179,7 @@ namespace SPEN_To_PC_WindowsApp
             catch (Exception ex)
             {
                 // Handle exceptions (e.g., if the client disconnects)
-  
+
                 updateUI(false);
                 Console.WriteLine($"Error handling client: {ex.Message}");
             }
@@ -189,11 +201,11 @@ namespace SPEN_To_PC_WindowsApp
                 // Simulate arrow key presses based on click type
                 if (data.Contains("Single Click"))
                 {
-                    SimulateKeyPress(VK_RIGHT);
+                    SimulateKeyPress(singleClick);
                 }
                 else if (data.Contains("Double Click"))
                 {
-                    SimulateKeyPress(VK_LEFT);
+                    SimulateKeyPress(doubleClick);
                 }
                 if (data.Contains("ping"))
                 {
@@ -206,6 +218,95 @@ namespace SPEN_To_PC_WindowsApp
             }
         }
 
+        private void updateUI(bool connectionStatus)
+        {
+            isConnected = connectionStatus;
+            if (isConnected)
+            {
+                ConnectionStatus.Content = "Connection Status: Connected";
+            }
+            else
+            {
+                ConnectionStatus.Content = "Connection Status: Disconnected";
+                CurrentAction.Content = "None:";
+            }
+        }
+
+
+        // customizing the button actions
+        public class AppSettings
+        {
+            public int SingleClick { get; set; }
+            public int DoubleClick { get; set; }
+        }
+
+        private void LoadSettings()
+        {
+            appSettings = ReadSettings();
+            if (appSettings == null)
+            {
+                // First launch, create default settings
+                appSettings = new AppSettings
+                {
+                    SingleClick = 0x27,
+                    DoubleClick = 0x25
+                };
+
+                // Save the default settings
+                SaveSettings(appSettings);
+                LoadSettings();
+            } else
+            {
+                singleClick = appSettings.SingleClick;
+                doubleClick = appSettings.DoubleClick;
+                cur_singleClick.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
+                cur_doubleClick.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+            }
+        }
+
+        private AppSettings ReadSettings()
+        {
+            try
+            {
+                // Combine the current directory with the file name
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), SettingFileName);
+
+                // Check if the file exists before attempting to read
+                if (File.Exists(filePath))
+                {
+                    // Read the JSON data from the file and deserialize it to AppSettings
+                    string json = File.ReadAllText(filePath);
+                    return JsonSerializer.Deserialize<AppSettings>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error reading settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return null;
+        }
+
+
+        private void SaveSettings(AppSettings appSettings)
+        {
+            try
+            {
+                // Combine the current directory with the file name
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), SettingFileName);
+
+                // Serialize the AppSettings object to JSON
+                string json = JsonSerializer.Serialize(appSettings);
+
+                // Write the JSON data to the file
+                File.WriteAllText(filePath, json);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving settings: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
         private void SimulateKeyPress(int keyCode)
         {
             keybd_event((byte)keyCode, 0, KEYEVENTF_EXTENDEDKEY, IntPtr.Zero);
@@ -213,18 +314,102 @@ namespace SPEN_To_PC_WindowsApp
             keybd_event((byte)keyCode, 0, KEYEVENTF_KEYUP, IntPtr.Zero);
         }
 
-        private void updateUI(bool connectionStatus)
+
+        private void cap_singleClick_Click(object sender, RoutedEventArgs e)
         {
-            isConnected = connectionStatus;
-            if (isConnected)
+            StartKeyCapture(true);
+        }
+
+        private void cap_doubleClick_Click(object sender, RoutedEventArgs e)
+        {
+            StartKeyCapture(false);
+        }
+
+        private void StartKeyCapture(bool isSingleClick)
+        {
+            // Disable the other capture button
+            if (isSingleClick)
             {
-                ConnectionStatus.Content = "Connection Status: Connected";
-            } else
+                isDoubleClickCapturing = false;
+                cap_singleClick.IsEnabled = false;
+                cap_doubleClick.IsEnabled = false;
+            }
+            else
             {
-                ConnectionStatus.Content = "Connection Status: Disconnected";
-                CurrentAction.Content = "None:";
+                isSingleClickCapturing = false;
+                cap_doubleClick.IsEnabled = false;
+                cap_singleClick.IsEnabled = false;
+            }
+
+            // Set capturing state
+            if (isSingleClick)
+            {
+                isSingleClickCapturing = true;
+                cur_singleClick.Content = "Capturing...";
+            }
+            else
+            {
+                isDoubleClickCapturing = true;
+                cur_doubleClick.Content = "Capturing...";
+            }
+
+            // Listen for key presses
+            KeyDown += KeyCapture_KeyDown;
+        }
+
+        private void KeyCapture_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Stop capturing on ESC key
+            if (e.Key == Key.Escape)
+            {
+                StopKeyCapture();
+            }
+            if (isSingleClickCapturing)
+            {
+
+                // Update label and save key in appSettings
+                cur_singleClick.Content = $"{e.Key}";
+                appSettings.SingleClick = KeyInterop.VirtualKeyFromKey(e.Key);
+                singleClick = appSettings.SingleClick;
+                SaveSettings(appSettings);
+
+                // Stop capturing after capturing the key
+                StopKeyCapture();
+
+            }
+            else if (isDoubleClickCapturing)
+            {
+
+                // Update label and save key in appSettings
+                cur_doubleClick.Content = $"{e.Key}";
+                appSettings.DoubleClick = KeyInterop.VirtualKeyFromKey(e.Key);
+                doubleClick = appSettings.DoubleClick;
+                SaveSettings(appSettings);
+
+                // Stop capturing after capturing the key
+                StopKeyCapture();
+
             }
         }
+
+        private void StopKeyCapture()
+        {
+            // Enable both capture buttons
+            cap_singleClick.IsEnabled = true;
+            cap_doubleClick.IsEnabled = true;
+
+            // Reset capturing state and labels
+            isSingleClickCapturing = false;
+            isDoubleClickCapturing = false;
+            cur_singleClick.Content = $"{KeyInterop.KeyFromVirtualKey(appSettings.SingleClick)}";
+            cur_doubleClick.Content = $"{KeyInterop.KeyFromVirtualKey(appSettings.DoubleClick)}";
+
+            // Stop listening for key presses
+            KeyDown -= KeyCapture_KeyDown;
+        }
+
+
+
 
 
 
@@ -248,5 +433,12 @@ namespace SPEN_To_PC_WindowsApp
                 Console.WriteLine($"Error during window closing: {ex.Message}");
             }
         }
+
+
+
+
+
+
+
     }
 }
