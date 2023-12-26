@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
@@ -32,12 +33,18 @@ namespace SPEN_To_PC_WindowsApp
         private int singleClick = 0x25;  // Left arrow key
         private int doubleClick = 0x27; // Right arrow key
 
+        // Keyinput related
         [DllImport("user32.dll")]
         private static extern void keybd_event(byte bVk, byte bScan, int dwFlags, IntPtr dwExtraInfo);
 
         public MainWindow()
         {
             InitializeComponent();
+            //hiding UI panels
+            SettingsPanel.Visibility = Visibility.Hidden;
+            AboutPanel.Visibility = Visibility.Hidden;
+            KeyMapHint.Content = "Click the capture button and then press a key\n to map that action to the selected Air Action\n         Press ESC to cancel the mapping";
+            HomePageBtn.Style = (Style)FindResource("NavBtnsActive"); //set home page as opening page
 
             //setting up networking
             DisplayIPAddress();
@@ -87,7 +94,11 @@ namespace SPEN_To_PC_WindowsApp
 
                 IPTextLable.Content = ipAddress ?? "Not available";
             }
-            else { IPTextLable.Content = "No active network connection found!"; }
+            else
+            {
+                IPTextLable.Content = "Not Available";
+                MessageBox.Show("No active networks found!\nPlease connect to a network", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -104,6 +115,7 @@ namespace SPEN_To_PC_WindowsApp
                 // Start listening for incoming connections
                 tcpListener?.Start();
 
+                // check for closing the connection
                 while (!cancellationSource.IsCancellationRequested)
                 {
                     try
@@ -129,14 +141,15 @@ namespace SPEN_To_PC_WindowsApp
         private async Task HandleClientPersistently()
         {
             try
-            {
+            {   
+                // check for closing the connection
                 while (!cancellationSource.Token.IsCancellationRequested)
                 {
                     try
                     {
-                        // Read incoming data with a timeout
+                        // Read incoming data
                         byte[] buffer = new byte[1024];
-                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length); // Timeout after 1 second
+                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
 
                         // Process received data
                         string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
@@ -179,7 +192,6 @@ namespace SPEN_To_PC_WindowsApp
             catch (Exception ex)
             {
                 // Handle exceptions (e.g., if the client disconnects)
-
                 updateUI(false);
                 Console.WriteLine($"Error handling client: {ex.Message}");
             }
@@ -195,18 +207,22 @@ namespace SPEN_To_PC_WindowsApp
         {
             try
             {
-                // Update UI labels and simulate arrow key presses based on received data
+                // Update UI labels (Testing only)
                 CurrentAction.Content = $"Click Type: {data}";
 
                 // Simulate arrow key presses based on click type
                 if (data.Contains("Single Click"))
                 {
                     SimulateKeyPress(singleClick);
+                    _ = updateStyles("Single click");   //update the UI
                 }
                 else if (data.Contains("Double Click"))
                 {
                     SimulateKeyPress(doubleClick);
+                    _ = updateStyles("double click");   //update the UI
                 }
+
+                //checking the connection is alive or not
                 if (data.Contains("ping"))
                 {
                     stream.WriteAsync(Encoding.UTF8.GetBytes("pong"));
@@ -218,28 +234,47 @@ namespace SPEN_To_PC_WindowsApp
             }
         }
 
+        // update the UI with changes to the connection
         private void updateUI(bool connectionStatus)
         {
             isConnected = connectionStatus;
             if (isConnected)
             {
-                ConnectionStatus.Content = "Connection Status: Connected";
+                ConnectionStatus.Content = "Connected";
+                ConnectionStatus.Style = (Style)FindResource("ConnectionStatusConnected");  //change the style
             }
             else
             {
-                ConnectionStatus.Content = "Connection Status: Disconnected";
+                ConnectionStatus.Content = "Disconnected";
                 CurrentAction.Content = "None:";
+                ConnectionStatus.Style = (Style)FindResource("ConnectionStatusDisconnected"); //change the style
             }
         }
 
+        // indicate whether the key is pressed or not
+        private async Task updateStyles(string element)
+        {
+            if (element == "Single click")
+            {
+                SingleClickAction.Style = (Style)FindResource("CurrentActionActive");
+            }
+            if (element == "double click")
+            {
+                DoubleClickAction.Style = (Style)FindResource("CurrentActionActive");
+            }
+            await Task.Delay(300);
+            SingleClickAction.Style = (Style)FindResource("CurrentActionInactive");
+            DoubleClickAction.Style = (Style)FindResource("CurrentActionInactive");
+        }
 
-        // customizing the button actions
+        // Defininf a class to store app settings
         public class AppSettings
         {
             public int SingleClick { get; set; }
             public int DoubleClick { get; set; }
         }
 
+        // loading data from the settings.json
         private void LoadSettings()
         {
             appSettings = ReadSettings();
@@ -255,12 +290,16 @@ namespace SPEN_To_PC_WindowsApp
                 // Save the default settings
                 SaveSettings(appSettings);
                 LoadSettings();
-            } else
+            }
+            else
             {
+                //read from the file and assign values to variables
                 singleClick = appSettings.SingleClick;
                 doubleClick = appSettings.DoubleClick;
                 cur_singleClick.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
                 cur_doubleClick.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+                SingleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
+                DoubleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
             }
         }
 
@@ -291,6 +330,10 @@ namespace SPEN_To_PC_WindowsApp
         {
             try
             {
+                //Update the action lable if the settings changed
+                SingleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
+                DoubleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+
                 // Combine the current directory with the file name
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), SettingFileName);
 
@@ -315,11 +358,11 @@ namespace SPEN_To_PC_WindowsApp
         }
 
 
+        // capturing the key event for customizing the actions
         private void cap_singleClick_Click(object sender, RoutedEventArgs e)
         {
             StartKeyCapture(true);
         }
-
         private void cap_doubleClick_Click(object sender, RoutedEventArgs e)
         {
             StartKeyCapture(false);
@@ -366,7 +409,6 @@ namespace SPEN_To_PC_WindowsApp
             }
             if (isSingleClickCapturing)
             {
-
                 // Update label and save key in appSettings
                 cur_singleClick.Content = $"{e.Key}";
                 appSettings.SingleClick = KeyInterop.VirtualKeyFromKey(e.Key);
@@ -375,11 +417,9 @@ namespace SPEN_To_PC_WindowsApp
 
                 // Stop capturing after capturing the key
                 StopKeyCapture();
-
             }
             else if (isDoubleClickCapturing)
             {
-
                 // Update label and save key in appSettings
                 cur_doubleClick.Content = $"{e.Key}";
                 appSettings.DoubleClick = KeyInterop.VirtualKeyFromKey(e.Key);
@@ -388,7 +428,6 @@ namespace SPEN_To_PC_WindowsApp
 
                 // Stop capturing after capturing the key
                 StopKeyCapture();
-
             }
         }
 
@@ -411,15 +450,20 @@ namespace SPEN_To_PC_WindowsApp
 
 
 
+        // custom close button (Not used)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
 
-
-
+        // action when the app is closed
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             try
             {
                 // Cleanup resources on window closing
                 cancellationSource?.Cancel();
+                StopKeyCapture();
 
                 if (tcpListener != null && tcpListener.Server.IsBound)
                 {
@@ -435,10 +479,65 @@ namespace SPEN_To_PC_WindowsApp
         }
 
 
+        // Change the UI based on the screen
+        private void HomePageBtn_click(object sender, RoutedEventArgs e)
+        {
+            // change the active page style
+            HomePageBtn.Style = (Style)FindResource("NavBtnsActive");
+            SettingsPageBtn.Style = (Style)FindResource("NavBtns");
+            AboutPageBtn.Style = (Style)FindResource("NavBtns");
+            // display the correct panel
+            HomePanel.Visibility = Visibility.Visible;
+            SettingsPanel.Visibility = Visibility.Hidden;
+            AboutPanel.Visibility = Visibility.Hidden;
+            // stop key capture if happening
+            StopKeyCapture();
+        }
+        private void SettingsPageBtn_click(object sender, RoutedEventArgs e)
+        {
+            // change the active page style
+            HomePageBtn.Style = (Style)FindResource("NavBtns");
+            SettingsPageBtn.Style = (Style)FindResource("NavBtnsActive");
+            AboutPageBtn.Style = (Style)FindResource("NavBtns");
+            // display the correct panel
+            HomePanel.Visibility = Visibility.Hidden;
+            SettingsPanel.Visibility = Visibility.Visible;
+            AboutPanel.Visibility = Visibility.Hidden;
+            // stop key capture if happening
+            StopKeyCapture();
+        }
+        private void AboutPageBtn_click(object sender, RoutedEventArgs e)
+        {
+            // change the active page style
+            HomePageBtn.Style = (Style)FindResource("NavBtns");
+            SettingsPageBtn.Style = (Style)FindResource("NavBtns");
+            AboutPageBtn.Style = (Style)FindResource("NavBtnsActive");
+            // display the correct panel
+            HomePanel.Visibility = Visibility.Hidden;
+            SettingsPanel.Visibility = Visibility.Hidden;
+            AboutPanel.Visibility = Visibility.Visible;
+            // stop key capture if happening
+            StopKeyCapture();
+        }
 
 
+        // About section button handling
+        private void GitHubLink_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
 
+        private void ContactMeLink_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "mailto:gvinura@gmail.com";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
 
-
+        private void DonateLink_Click(object sender, RoutedEventArgs e)
+        {
+            string url = "https://www.buymeacoffee.com/th3.s7r4ng3r";
+            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+        }
     }
 }

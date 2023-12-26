@@ -4,6 +4,146 @@
              xmlns:local="clr-namespace:SPEN_To_PC_WindowsApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <!-- Default rounded corner for elements -->
+        <Style TargetType="Button" x:Key="RoundButton">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <!-- Connection status syles-->
+        <Style TargetType="Label" x:Key="ConnectionStatusDisconnected">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="BorderBrush" Value="#FF7D0000"/>
+            <Setter Property="Background" Value="#FF3A0909"/>
+            <Setter Property="Foreground" Value="#FFFFC2C2"/>
+        </Style>
+        <Style TargetType="Label" x:Key="ConnectionStatusConnected">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="7" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="BorderBrush" Value="#FF008C0E"/>
+            <Setter Property="Background" Value="#FF004404"/>
+            <Setter Property="Foreground" Value="#FFC6FFC1"/>
+        </Style>
+        
+        <!-- style for the IP address-->
+        <Style TargetType="Label" x:Key="IPLable">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        
+        <!-- Styles for Text-->
+        <Style TargetType="Label" x:Key="KeyMap">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="RoundText">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="50" />
+                </Style>
+            </Style.Resources>
+        </Style>
+
+        <!-- Styles for current aaction buttons-->
+        <Style TargetType="Label" x:Key="CurrentActionInactive">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="Background" Value="#FF171717"/>
+            <Setter Property="Foreground" Value="#FFC3C3C3"/>
+        </Style>
+        <Style TargetType="Label" x:Key="CurrentActionActive">
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+            <Setter Property="Background" Value="#FF424242"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        
+        
+        <!-- Style for the navigation with hover -->
+        <Style TargetType="Button" x:Key="NavBtns">
+            <Setter Property="Background" Value="#FF171717"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF232323"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button" x:Key="NavBtnsActive">
+            <Setter Property="Background" Value="#FF2F2F2F"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="7">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FF2F2F2F"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+        <!-- Closing Button-->
+        <!--
+        <Style TargetType="Button" x:Key="CloseBtn">
+            <Setter Property="Background" Value="#FF840B0B"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFA51111"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        -->
+        
+
+
     </Application.Resources>
 </Application>
