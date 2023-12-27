@@ -1,24 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>SPEN_To_PC_WindowsApp</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>app_icon_trans.ico</ApplicationIcon>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="app-logo.png" />
+    <None Remove="app_icon_trans.ico" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.0" />
+    <Content Include="app_icon_trans.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="app-logo.png" />
+    <Resource Include="app_icon_trans.ico" />
   </ItemGroup>
 
 </Project>

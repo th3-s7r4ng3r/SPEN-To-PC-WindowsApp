@@ -1,42 +1,15 @@
-﻿<Window x:Class="SPEN_To_PC_WindowsApp.MainWindow"
+﻿<Window x:Name="TheAppWindow" x:Class="SPEN_To_PC_WindowsApp.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SPEN_To_PC_WindowsApp"
         mc:Ignorable="d"
-        Title="SPEN To PC" Height="500" Width="825" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" UseLayoutRounding="False" VerticalContentAlignment="Stretch">
-
-    <!-- Titlebar Editing -->
-    <!--
-    <Window.Style>
-        <Style TargetType="{x:Type Window}">
-            <Setter Property="shell:WindowChrome.WindowChrome">
-                <Setter.Value>
-                    <shell:WindowChrome GlassFrameThickness="0"/>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Window}">
-                        <Border Background="Black">
-                            <Grid>
-                                <ContentPresenter Margin="0,32,0,0"/>
-                                <TextBlock Text="SPEN To PC" FontSize="15" FontWeight="Bold" Foreground="White" Margin="10,5,0,0" HorizontalAlignment="Left"/>
-                                <Button Content="X" Style="{DynamicResource CloseBtn}" Width="25" Height="23" Margin="0,0,4,40" HorizontalAlignment="Right" Click="CloseButton_Click" Foreground="White" FontWeight="SemiBold" Cursor="Hand" Focusable="False" FontSize="14" ForceCursor="False" HorizontalContentAlignment="Right" IsHitTestVisible="True" IsTabStop="False"/>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Style>
-    -->
-
+        Title="SPEN To PC" Style="{DynamicResource WindowBorderNormal}"  Height="487" Width="825" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" UseLayoutRounding="False" VerticalContentAlignment="Stretch">
+    
     <Grid Background="#FF121212">
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*"/>
+            <RowDefinition Height="27*"/>
             <RowDefinition Height="457*"/>
             <RowDefinition Height="15*"/>
         </Grid.RowDefinitions>
@@ -46,6 +19,7 @@
             <ColumnDefinition Width="602*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
+        <!-- Common section -->
         <!-- Common section -->
         <Button x:Name="HomePageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Home" HorizontalAlignment="Left" Margin="7,12,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="HomePageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand"/>
         <Button x:Name="SettingsPageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Settings" HorizontalAlignment="Left" Margin="7,59,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="SettingsPageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand"/>
@@ -74,8 +48,8 @@
             </Label>
             <Image Height="74" Canvas.Left="200" Canvas.Top="23" Width="185" Source="/app-logo.png" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Image Height="26" Canvas.Left="384" Canvas.Top="149" Width="24" Source="/info.png" HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="Enter the below IP address in the mobile app and connect!" Cursor="Help"/>
-            <Label Content="Single Click" Height="31" Width="120" Foreground="#FFABABAB" Canvas.Left="152" Canvas.Top="337" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontWeight="Thin" FontSize="14"/>
-            <Label Content="Double Click" Height="31" Width="120" Foreground="#FFABABAB" Canvas.Left="309" Canvas.Top="337" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Thin" FontSize="14"/>
+            <Label Content="Single Click" Height="31" Width="120" Foreground="#FFABABAB" Canvas.Left="152" Canvas.Top="337" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center" FontSize="14"/>
+            <Label Content="Double Click" Height="31" Width="120" Foreground="#FFABABAB" Canvas.Left="309" Canvas.Top="337" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="14"/>
             <Label x:Name="SingleClickAction" Content="Single Click" Style="{DynamicResource CurrentActionInactive}" FontSize="15" Height="39" Width="148" Canvas.Left="138" Canvas.Top="366" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="SemiBold" VerticalContentAlignment="Center"/>
             <Label x:Name="DoubleClickAction" Content="Single Click" Style="{DynamicResource CurrentActionInactive}" FontSize="15" Height="39" Width="148" Canvas.Left="296" Canvas.Top="366" HorizontalContentAlignment="Center" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label Content="Current Action" Height="31" Width="120" Foreground="#FFABABAB" Canvas.Left="229" Canvas.Top="302" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="SemiBold" FontSize="14"/>
@@ -86,9 +60,9 @@
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Center" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
             <Rectangle Height="46" Canvas.Left="83" Stroke="Black" Canvas.Top="363" Width="423" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Rectangle Height="46" Canvas.Left="83" Stroke="Black" Canvas.Top="314" Width="423" HorizontalAlignment="Left" VerticalAlignment="Center" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F"/>
-            <Button x:Name="cap_singleClick" Style="{DynamicResource NavBtns}"  Content="Capture" Width="88" Height="37" Click="cap_singleClick_Click" BorderBrush="#FF5B5B5B" Canvas.Left="239" Canvas.Top="319" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFD8D6D6" Cursor="Hand"/>
+            <Button x:Name="cap_singleClick" Style="{DynamicResource NavBtns}"  Content="Capture" Width="88" Height="37" Click="Cap_singleClick_Click" BorderBrush="#FF5B5B5B" Canvas.Left="239" Canvas.Top="319" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFD8D6D6" Cursor="Hand"/>
             <Label Content="Settings" FontWeight="Bold" FontSize="30" Height="49" Width="198" Foreground="White" Canvas.Left="192" Canvas.Top="27" HorizontalAlignment="Center" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
-            <Button x:Name="cap_doubleClick" Style="{DynamicResource NavBtns}" Content="Capture" Width="88" Height="37" Click="cap_doubleClick_Click" BorderBrush="#FF5B5B5B" Canvas.Left="239" Canvas.Top="368" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFD8D6D6" Cursor="Hand"/>
+            <Button x:Name="cap_doubleClick" Style="{DynamicResource NavBtns}" Content="Capture" Width="88" Height="37" Click="Cap_doubleClick_Click" BorderBrush="#FF5B5B5B" Canvas.Left="239" Canvas.Top="368" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFD8D6D6" Cursor="Hand"/>
             <Label x:Name="cur_singleClick" Style="{DynamicResource ResourceKey=KeyMap}" Content="Right" Height="36" Width="156" Foreground="#FFB1B1B1" Canvas.Left="345" Canvas.Top="319" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" HorizontalContentAlignment="Center" Background="#FF191919"/>
             <Label x:Name="cur_doubleClick" Style="{DynamicResource KeyMap}" Content="Left" Height="36" Width="155" Foreground="#FFB1B1B1" Canvas.Left="345" Canvas.Top="368" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16" HorizontalContentAlignment="Center" RenderTransformOrigin="0.661,0.17" Background="#FF191919"/>
             <Label Content="Map Action Keys" FontWeight="SemiBold" FontSize="18" Height="36" Width="198" Foreground="#FFD6D6D6" Canvas.Left="192" Canvas.Top="106" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -114,7 +88,8 @@
             <Label Content="Tab S6 or Newer" Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="297" Canvas.Top="200" Height="29" Width="124" HorizontalContentAlignment="Center" FontSize="14" Background="#FF121212" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF969494"/>
             <Label Content="S22 Ultra or Newer Ultra Models" Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="181" Canvas.Top="235" Height="29" Width="224" HorizontalContentAlignment="Center" FontSize="14" Background="#FF121212" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF969494"/>
         </Canvas>
-
+        <Button x:Name="CloseBtn" Style="{DynamicResource CloseBtn}" Content="X" Width="23" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="557,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="CloseBtn_Click"/>
+        <Button x:Name="MinimizeBtn" Style="{DynamicResource CloseBtn}" Content="—" Width="22" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="532,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="MinimizeBtn_Click" Padding="0,15,0,0"/>
 
     </Grid>
 

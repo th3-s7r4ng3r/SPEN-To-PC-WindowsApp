@@ -23,7 +23,7 @@ namespace SPEN_To_PC_WindowsApp
 
         // Get the app's local data folder
         private const string SettingFileName = "settings.json";
-        AppSettings appSettings = new AppSettings();
+        AppSettings appSettings = new();
         private bool isSingleClickCapturing = false;
         private bool isDoubleClickCapturing = false;
 
@@ -34,8 +34,8 @@ namespace SPEN_To_PC_WindowsApp
         private int doubleClick = 0x27; // Right arrow key
 
         // Keyinput related
-        [DllImport("user32.dll")]
-        private static extern void keybd_event(byte bVk, byte bScan, int dwFlags, IntPtr dwExtraInfo);
+        [LibraryImport("user32.dll")]
+        private static partial void keybd_event(byte bVk, byte bScan, int dwFlags, IntPtr dwExtraInfo);
 
         public MainWindow()
         {
@@ -50,7 +50,7 @@ namespace SPEN_To_PC_WindowsApp
             DisplayIPAddress();
             InitializeTcpListener();
             cancellationSource = new CancellationTokenSource();
-            StartTcpListener();
+            _ = StartTcpListener();
 
             LoadSettings(); // Load settings on app startup
             singleClick = appSettings.SingleClick;
@@ -64,7 +64,7 @@ namespace SPEN_To_PC_WindowsApp
             NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
 
             // Find the first active (up) network interface with an IPv4 address
-            NetworkInterface activeInterface = null;
+            NetworkInterface? activeInterface = null;
 
             foreach (var networkInterface in networkInterfaces)
             {
@@ -141,7 +141,7 @@ namespace SPEN_To_PC_WindowsApp
         private async Task HandleClientPersistently()
         {
             try
-            {   
+            {
                 // check for closing the connection
                 while (!cancellationSource.Token.IsCancellationRequested)
                 {
@@ -149,17 +149,17 @@ namespace SPEN_To_PC_WindowsApp
                     {
                         // Read incoming data
                         byte[] buffer = new byte[1024];
-                        int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+                        int bytesRead = await stream.ReadAsync(buffer);
 
                         // Process received data
                         string receivedData = Encoding.UTF8.GetString(buffer, 0, bytesRead);
                         if (receivedData == "connection closed") // Check for a special message
                         {
-                            updateUI(false);
+                            UpdateUI(false);
                             Console.WriteLine("Desktop app closed. Sending close signal.");
                             break;
                         }
-                        updateUI(true);
+                        UpdateUI(true);
                         ProcessReceivedData(receivedData);
 
                         // Send a heartbeat every 0.1 seconds
@@ -169,21 +169,21 @@ namespace SPEN_To_PC_WindowsApp
                     catch (SocketException ex)
                     {
                         // Handle socket exceptions
-                        updateUI(false);
+                        UpdateUI(false);
                         Console.WriteLine($"Socket exception occurred: {ex.Message}");
                         break;
                     }
                     catch (IOException ex)
                     {
                         // Handle other I/O exceptions
-                        updateUI(false);
+                        UpdateUI(false);
                         Console.WriteLine($"I/O exception occurred: {ex.Message}");
                         break;
                     }
                     catch (TimeoutException)
                     {
                         // Handle heartbeat timeout
-                        updateUI(false);
+                        UpdateUI(false);
                         Console.WriteLine("Heartbeat timeout. Connection lost.");
                         break;
                     }
@@ -192,7 +192,7 @@ namespace SPEN_To_PC_WindowsApp
             catch (Exception ex)
             {
                 // Handle exceptions (e.g., if the client disconnects)
-                updateUI(false);
+                UpdateUI(false);
                 Console.WriteLine($"Error handling client: {ex.Message}");
             }
             finally
@@ -214,18 +214,18 @@ namespace SPEN_To_PC_WindowsApp
                 if (data.Contains("Single Click"))
                 {
                     SimulateKeyPress(singleClick);
-                    _ = updateStyles("Single click");   //update the UI
+                    _ = UpdateStyles("Single click");   //update the UI
                 }
                 else if (data.Contains("Double Click"))
                 {
                     SimulateKeyPress(doubleClick);
-                    _ = updateStyles("double click");   //update the UI
+                    _ = UpdateStyles("double click");   //update the UI
                 }
 
                 //checking the connection is alive or not
                 if (data.Contains("ping"))
                 {
-                    stream.WriteAsync(Encoding.UTF8.GetBytes("pong"));
+                    _ = stream.WriteAsync(Encoding.UTF8.GetBytes("pong"));
                 }
             }
             catch (Exception ex)
@@ -235,7 +235,7 @@ namespace SPEN_To_PC_WindowsApp
         }
 
         // update the UI with changes to the connection
-        private void updateUI(bool connectionStatus)
+        private void UpdateUI(bool connectionStatus)
         {
             isConnected = connectionStatus;
             if (isConnected)
@@ -252,7 +252,7 @@ namespace SPEN_To_PC_WindowsApp
         }
 
         // indicate whether the key is pressed or not
-        private async Task updateStyles(string element)
+        private async Task UpdateStyles(string element)
         {
             if (element == "Single click")
             {
@@ -359,11 +359,11 @@ namespace SPEN_To_PC_WindowsApp
 
 
         // capturing the key event for customizing the actions
-        private void cap_singleClick_Click(object sender, RoutedEventArgs e)
+        private void Cap_singleClick_Click(object sender, RoutedEventArgs e)
         {
             StartKeyCapture(true);
         }
-        private void cap_doubleClick_Click(object sender, RoutedEventArgs e)
+        private void Cap_doubleClick_Click(object sender, RoutedEventArgs e)
         {
             StartKeyCapture(false);
         }
@@ -448,14 +448,6 @@ namespace SPEN_To_PC_WindowsApp
         }
 
 
-
-
-        // custom close button (Not used)
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
         // action when the app is closed
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -539,5 +531,17 @@ namespace SPEN_To_PC_WindowsApp
             string url = "https://www.buymeacoffee.com/th3.s7r4ng3r";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
+
+        // custom close button (Not used)
+        private void CloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void MinimizeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
     }
 }
+
+
