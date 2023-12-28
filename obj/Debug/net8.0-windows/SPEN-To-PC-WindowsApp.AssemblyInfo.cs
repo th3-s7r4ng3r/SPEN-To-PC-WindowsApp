@@ -11,12 +11,12 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("SPEN-To-PC-WindowsApp")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("SPEN To PC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3d438b6706796a7524721c6f2ee00d1bd9ec4ec8")]
-[assembly: System.Reflection.AssemblyProductAttribute("SPEN-To-PC-WindowsApp")]
-[assembly: System.Reflection.AssemblyTitleAttribute("SPEN-To-PC-WindowsApp")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyProductAttribute("SPEN To PC")]
+[assembly: System.Reflection.AssemblyTitleAttribute("SPEN To PC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 [assembly: System.Runtime.Versioning.TargetPlatformAttribute("Windows7.0")]
 [assembly: System.Runtime.Versioning.SupportedOSPlatformAttribute("Windows7.0")]

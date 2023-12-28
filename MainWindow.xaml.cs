@@ -307,8 +307,11 @@ namespace SPEN_To_PC_WindowsApp
         {
             try
             {
-                // Combine the current directory with the file name
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), SettingFileName);
+                // Get the AppData Roaming directory
+                string appDataRoamingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPENToPC");
+
+                // Combine the AppData Roaming directory with the file name
+                string filePath = Path.Combine(appDataRoamingPath, SettingFileName);
 
                 // Check if the file exists before attempting to read
                 if (File.Exists(filePath))
@@ -330,12 +333,20 @@ namespace SPEN_To_PC_WindowsApp
         {
             try
             {
-                //Update the action lable if the settings changed
+                // Update the action label if the settings changed
                 SingleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
                 DoubleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
 
-                // Combine the current directory with the file name
-                string filePath = Path.Combine(Directory.GetCurrentDirectory(), SettingFileName);
+                // Get the AppData Roaming directory
+                string appDataRoamingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPENToPC");
+                // Ensure the "SPEN To PC" folder exists
+                if (!Directory.Exists(appDataRoamingPath))
+                {
+                    Directory.CreateDirectory(appDataRoamingPath);
+                }
+
+                // Combine the AppData Roaming directory with the file name
+                string filePath = Path.Combine(appDataRoamingPath, SettingFileName);
 
                 // Serialize the AppSettings object to JSON
                 string json = JsonSerializer.Serialize(appSettings);
@@ -522,7 +533,7 @@ namespace SPEN_To_PC_WindowsApp
 
         private void ContactMeLink_Click(object sender, RoutedEventArgs e)
         {
-            string url = "mailto:gvinura@gmail.com";
+            string url = "mailto:th3.s7r4ng3r@gmail.com";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
@@ -532,7 +543,7 @@ namespace SPEN_To_PC_WindowsApp
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
-        // custom close button (Not used)
+        // custom close button
         private void CloseBtn_Click(object sender, RoutedEventArgs e)
         {
             Close();

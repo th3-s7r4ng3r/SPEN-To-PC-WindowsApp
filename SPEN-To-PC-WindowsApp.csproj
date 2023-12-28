@@ -9,6 +9,7 @@
     <ApplicationIcon>app_icon_trans.ico</ApplicationIcon>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputType>WinExe</OutputType>
+    <AssemblyName>SPEN To PC</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>

@@ -190,3 +190,4 @@ git_stats/*
 StyleCop.Cache
 bin
 obj
+Setup/Setup-SetupFiles/SPEN-To-PC-v1.0.msi
