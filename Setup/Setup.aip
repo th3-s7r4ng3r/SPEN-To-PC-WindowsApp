@@ -17,11 +17,14 @@
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Value="SPEN To PC.exe"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.runtimeconfig.json" Value="SPEN To PC.runtimeconfig.json"/>
     <ROW Property="ALLUSERS" Value="1"/>
-    <ROW Property="ARPCOMMENTS" Value="This installer contains the logic and data required to install [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPCOMMENTS" Value="Free and open-source application designed to integrate Samsung S Pen’s Air Actions with Windows devices." ValueLocId="*"/>
     <ROW Property="ARPCONTACT" Value="th3.s7r4ng3r@gmail.com"/>
+    <ROW Property="ARPHELPLINK" Value="https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp/wiki"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="ARPNOREPAIR" Value="1"/>
     <ROW Property="ARPPRODUCTICON" Value="app_icon_black.exe" Type="8"/>
+    <ROW Property="ARPURLINFOABOUT" Value="https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp/wiki"/>
+    <ROW Property="ARPURLUPDATEINFO" Value="https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp/releases"/>
     <ROW Property="AiEmbeddedUI" Value="1"/>
     <ROW Property="AiWinUI" Value="1"/>
     <ROW Property="AppLogoIcon" Value="applogo.png" MultiBuildValue="DefaultBuild:installerlight.png" Type="1" MsiKey="AppLogoIcon"/>
@@ -30,7 +33,7 @@
     <ROW Property="ProductCode" Value="1033:{1ECAF92E-8F66-43C6-AC7F-E8236DA19811} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="SPEN To PC"/>
-    <ROW Property="ProductVersion" Value="1.0.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.0" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{BA28A565-0585-436B-AD4A-81FD0514D892}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -98,7 +101,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_en.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DigCertStoreComponent">
-    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="f87b01b78b67bec5f351249a7f790b11d276b2a0 Subject: TH3 S7R4NG3R&#10;Issuer: TH3 S7R4NG3R&#10;Valid from 12/28/2023 to 12/28/2024" Subject="CN=TH3 S7R4NG3R" Store="Machine\Root"/>
+    <ROW TimeStampUrl="http://timestamp.digicert.com" SignerDescription="[|ProductName]" DescriptionUrl="https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp/wiki" SignOptions="7" SignTool="0" UseSha256="1" Thumbprint="f87b01b78b67bec5f351249a7f790b11d276b2a0 Subject: TH3 S7R4NG3R&#10;Issuer: TH3 S7R4NG3R&#10;Valid from 12/28/2023 to 12/28/2024" Subject="CN=TH3 S7R4NG3R" Store="Machine\Root"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
@@ -291,8 +294,8 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="SPENToPC" Directory_="DesktopFolder" Name="SPENTO~1|SPEN To PC" Component_="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Target="[#SPENToPC.exe]" Description="SPEN Air Action to your PC" Hotkey="0" Icon_="app_icon_black.exe" IconIndex="0" ShowCmd="1" WkDir="SPENToPCWindowsApp_Dir"/>
-    <ROW Shortcut="SPENToPC_1" Directory_="ProgramMenuFolder" Name="SPENTO~1|SPEN To PC" Component_="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Target="[#SPENToPC.exe]" Hotkey="0" Icon_="app_icon_black.exe" IconIndex="0" ShowCmd="1" WkDir="SPENToPCWindowsApp_Dir"/>
+    <ROW Shortcut="SPENToPC" Directory_="DesktopFolder" Name="SPENTO~1|SPEN To PC" Component_="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Target="[#SPENToPC.exe]" Description="Air Actions for your Windows device" Hotkey="0" Icon_="app_icon_black.exe" IconIndex="0" ShowCmd="1" WkDir="SPENToPCWindowsApp_Dir"/>
+    <ROW Shortcut="SPENToPC_1" Directory_="ProgramMenuFolder" Name="SPENTO~1|SPEN To PC" Component_="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Target="[#SPENToPC.exe]" Description="Air Actions for your Windows device" Hotkey="0" Icon_="app_icon_black.exe" IconIndex="0" ShowCmd="1" WkDir="SPENToPCWindowsApp_Dir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiSignatureComponent">
     <ROW Signature="FileSearchSign" FileName="cmd.exe"/>

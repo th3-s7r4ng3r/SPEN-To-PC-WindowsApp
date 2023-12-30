@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SPEN_To_PC_WindowsApp"
         mc:Ignorable="d"
         Title="SPEN To PC" Style="{DynamicResource WindowBorderNormal}"  Height="487" Width="825" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" UseLayoutRounding="False" VerticalContentAlignment="Stretch">
-    
+
     <Grid Background="#FF121212">
         <Grid.RowDefinitions>
             <RowDefinition Height="27*"/>
@@ -56,7 +56,7 @@
         </Canvas>
 
         <!-- Settings Page section -->
-        <Canvas x:Name="SettingsPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+        <Canvas x:Name="SettingsPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" d:IsHidden="True">
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Center" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
             <Rectangle Height="46" Canvas.Left="83" Stroke="Black" Canvas.Top="363" Width="423" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <Rectangle Height="46" Canvas.Left="83" Stroke="Black" Canvas.Top="314" Width="423" HorizontalAlignment="Left" VerticalAlignment="Center" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F"/>
@@ -74,13 +74,13 @@
         </Canvas>
 
         <!-- About Page section -->
-        <Canvas x:Name="AboutPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+        <Canvas x:Name="AboutPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0" d:IsHidden="True">
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Center" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
             <Image Height="74" Canvas.Left="200" Canvas.Top="23" Width="185" Source="/app-logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Button x:Name="GitHubLink" Style="{DynamicResource NavBtns}" Content="GitHub Repo" Canvas.Left="136" Canvas.Top="391" Height="30" Width="97" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" BorderBrush="#FF717171" Click="GitHubLink_Click"/>
+            <Button x:Name="GitHubLink" Style="{DynamicResource NavBtns}" Content="Check for Updates" Canvas.Left="122" Canvas.Top="391" Height="30" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" BorderBrush="#FF717171" Click="GitHubLink_Click"/>
             <Label Content="Version 1.0" Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="246" Canvas.Top="99" Height="29" Width="90" Foreground="#FFEFEFEF" HorizontalContentAlignment="Center" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center" Background="#FF272727"/>
-            <Button x:Name="ContactMeLink" Style="{DynamicResource NavBtns}" Content="Contact Me" Canvas.Left="238" Canvas.Top="391" Height="30" Width="89" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" Click="ContactMeLink_Click"/>
-            <Button x:Name="DonateLink" Style="{DynamicResource NavBtns}" Content="Buy Me a Coffee" Canvas.Left="332" Canvas.Top="391" Height="30" Width="115" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" Click="DonateLink_Click"/>
+            <Button x:Name="ContactMeLink" Style="{DynamicResource NavBtns}" Content="Contact Me" Canvas.Left="247" Canvas.Top="391" Height="30" Width="89" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" Click="ContactMeLink_Click"/>
+            <Button x:Name="DonateLink" Style="{DynamicResource NavBtns}" Content="Buy Me a Coffee" Canvas.Left="341" Canvas.Top="391" Height="30" Width="115" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" Click="DonateLink_Click"/>
             <Label Content="TH3 S7R4NG3R" Canvas.Left="234" Canvas.Top="323" Height="30" Width="114" Foreground="#FFEFEFEF" HorizontalContentAlignment="Center" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label Content="Supported Models" Canvas.Left="223" Canvas.Top="167" Height="30" Width="136" Foreground="#FFEFEFEF" HorizontalContentAlignment="Center" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="SemiBold"/>
             <Label Content="Developed by" Canvas.Left="234" Canvas.Top="304" Height="30" Width="114" Foreground="#FF8E8E8E" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Top"/>

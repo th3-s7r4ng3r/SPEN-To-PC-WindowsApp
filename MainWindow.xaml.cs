@@ -61,16 +61,40 @@ namespace SPEN_To_PC_WindowsApp
         private void DisplayIPAddress()
         {
             // Get all network interfaces
-            NetworkInterface[] networkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+            NetworkInterface[] allnetworkInterfaces = NetworkInterface.GetAllNetworkInterfaces();
+
+            // List for virtual adapters
+            string[] virtualAdapters = ["virtual", "virtio", "pv network", "parallels ethernet", "vic ethernet", "vmware"];
 
             // Find the first active (up) network interface with an IPv4 address
             NetworkInterface? activeInterface = null;
 
-            foreach (var networkInterface in networkInterfaces)
+
+            foreach (var networkInterface in allnetworkInterfaces)
             {
+                //check whether the interface is up and not a loopback one
                 if (networkInterface.OperationalStatus == OperationalStatus.Up &&
                     networkInterface.NetworkInterfaceType != NetworkInterfaceType.Loopback)
                 {
+                    //check whether the interface is a virtual or not
+                    bool isAVirtualAdapter = false;
+                    foreach (var virtualAdapter in virtualAdapters)
+                    {
+                        if (networkInterface.Description.ToLowerInvariant().Contains(virtualAdapter))
+                        {
+                            isAVirtualAdapter = true;
+                            break;
+                        }
+                    }
+
+                    // go to next interface, if the current one is a virtual one
+                    if (isAVirtualAdapter)
+                    {
+                        continue;
+                    }
+
+
+                    // selecting the interface if it has a IPv4 address
                     foreach (var address in networkInterface.GetIPProperties().UnicastAddresses)
                     {
                         if (address.Address.AddressFamily == AddressFamily.InterNetwork &&
@@ -80,11 +104,12 @@ namespace SPEN_To_PC_WindowsApp
                             break;
                         }
                     }
-
+                    // break if an active network is found
                     if (activeInterface != null)
                         break;
                 }
             }
+
 
             // Display the IP address in the IPLable
             if (activeInterface != null)
@@ -527,7 +552,7 @@ namespace SPEN_To_PC_WindowsApp
         // About section button handling
         private void GitHubLink_Click(object sender, RoutedEventArgs e)
         {
-            string url = "https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp";
+            string url = "https://github.com/th3-s7r4ng3r/SPEN-To-PC-WindowsApp/releases";
             Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
         }
 
