@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 
@@ -24,14 +25,21 @@ namespace SPEN_To_PC_WindowsApp
         // Get the app's local data folder
         private const string SettingFileName = "settings.json";
         AppSettings appSettings = new();
-        private bool isSingleClickCapturing = false;
-        private bool isDoubleClickCapturing = false;
+        private string currentCapturing = "none";
+        private string appVersion = "1.0";
 
         // Other variables
         private const int KEYEVENTF_EXTENDEDKEY = 0x0001;
         private const int KEYEVENTF_KEYUP = 0x0002;
         private int singleClick = 0x25;  // Left arrow key
         private int doubleClick = 0x27; // Right arrow key
+        private int swipeLeft = 0x21; // Page Up key
+        private int swipeRight = 0x22; // Page Down key
+        private int swipeUp = 0x26; // Up arrow key
+        private int swipeDown = 0x28; // Down arrow key
+        private int clockWise = 0xAF; // Volume Up key
+        private int antiClockWise = 0xAE; // Volume Down key
+
 
         // Keyinput related
         [LibraryImport("user32.dll")]
@@ -43,7 +51,8 @@ namespace SPEN_To_PC_WindowsApp
             //hiding UI panels
             SettingsPanel.Visibility = Visibility.Hidden;
             AboutPanel.Visibility = Visibility.Hidden;
-            KeyMapHint.Content = "Click the capture button and then press a key\n to map that action to the selected Air Action\n         Press ESC to cancel the mapping";
+            versionLable.Content = "Version " + appVersion;
+            KeyMapHint.Content = " Click the capture button and then press a key \n  to map that action to the selected Air Action. \n         Press ESC to cancel the mapping";
             HomePageBtn.Style = (Style)FindResource("NavBtnsActive"); //set home page as opening page
 
             //setting up networking
@@ -53,8 +62,8 @@ namespace SPEN_To_PC_WindowsApp
             _ = StartTcpListener();
 
             LoadSettings(); // Load settings on app startup
-            singleClick = appSettings.SingleClick;
-            doubleClick = appSettings.DoubleClick;
+            //singleClick = appSettings.SingleClick;
+            //doubleClick = appSettings.DoubleClick;
         }
 
         //get ip address of the pc
@@ -235,17 +244,48 @@ namespace SPEN_To_PC_WindowsApp
                 // Update UI labels (Testing only)
                 CurrentAction.Content = $"Click Type: {data}";
 
-                // Simulate arrow key presses based on click type
+                // Simulate key presses based on click type
                 if (data.Contains("Single Click"))
                 {
                     SimulateKeyPress(singleClick);
-                    _ = UpdateStyles("Single click");   //update the UI
+                    _ = UpdateStyles("single");   //update the UI
                 }
                 else if (data.Contains("Double Click"))
                 {
                     SimulateKeyPress(doubleClick);
-                    _ = UpdateStyles("double click");   //update the UI
+                    _ = UpdateStyles("double");   //update the UI
                 }
+                else if (data.Contains("sw_left"))
+                {
+                    SimulateKeyPress(swipeLeft);
+                    _ = UpdateStyles("left");   //update the UI
+                }
+                else if (data.Contains("sw_right"))
+                {
+                    SimulateKeyPress(swipeRight);
+                    _ = UpdateStyles("right");   //update the UI
+                }
+                else if (data.Contains("sw_up"))
+                {
+                    SimulateKeyPress(swipeUp);
+                    _ = UpdateStyles("up");   //update the UI
+                }
+                else if (data.Contains("sw_down"))
+                {
+                    SimulateKeyPress(swipeDown);
+                    _ = UpdateStyles("down");   //update the UI
+                }
+                else if (data.Contains("cl_counterClockWise"))
+                {
+                    SimulateKeyPress(clockWise);
+                    _ = UpdateStyles("counterClock");   //update the UI
+                }
+                else if (data.Contains("cl_clockWise"))
+                {
+                    SimulateKeyPress(antiClockWise);
+                    _ = UpdateStyles("clockWise");   //update the UI
+                }
+
 
                 //checking the connection is alive or not
                 if (data.Contains("ping"))
@@ -279,37 +319,89 @@ namespace SPEN_To_PC_WindowsApp
         // indicate whether the key is pressed or not
         private async Task UpdateStyles(string element)
         {
-            if (element == "Single click")
+            switch (element)
             {
-                SingleClickAction.Style = (Style)FindResource("CurrentActionActive");
+                case "single":
+                    SingleClickAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "double":
+                    DoubleClickAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "clockWise":
+                    ClockWiseAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "counterClock":
+                    AntiClockAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "left":
+                    SwipeLeftAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "right":
+                    SwipeRightAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "up":
+                    SwipeUpAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
+                case "down":
+                    SwipeDownAction.Style = (Style)FindResource("CurrentActionActive");
+                    break;
             }
-            if (element == "double click")
-            {
-                DoubleClickAction.Style = (Style)FindResource("CurrentActionActive");
-            }
-            await Task.Delay(300);
+
+            await Task.Delay(400);
             SingleClickAction.Style = (Style)FindResource("CurrentActionInactive");
             DoubleClickAction.Style = (Style)FindResource("CurrentActionInactive");
+            ClockWiseAction.Style = (Style)FindResource("CurrentActionInactive");
+            AntiClockAction.Style = (Style)FindResource("CurrentActionInactive");
+            SwipeLeftAction.Style = (Style)FindResource("CurrentActionInactive");
+            SwipeUpAction.Style = (Style)FindResource("CurrentActionInactive");
+            SwipeDownAction.Style = (Style)FindResource("CurrentActionInactive");
+            SwipeRightAction.Style = (Style)FindResource("CurrentActionInactive");
         }
 
-        // Defininf a class to store app settings
+        // updating labels in home screen actions & Settings screens
+        private void updateKeys()
+        {
+            SingleClickAction.Content = Action01KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
+            DoubleClickAction.Content = Action02KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+            ClockWiseAction.Content = Action07KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(clockWise)}";
+            AntiClockAction.Content = Action08KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(antiClockWise)}";
+            SwipeLeftAction.Content = Action05KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(swipeLeft)}";
+            SwipeRightAction.Content = Action06KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(swipeRight)}";
+            SwipeUpAction.Content = Action03KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(swipeUp)}";
+            SwipeDownAction.Content = Action04KeyDisplay.Content = $"{KeyInterop.KeyFromVirtualKey(swipeDown)}";
+        }
+
+        // Defining a class to store app settings
         public class AppSettings
         {
             public int SingleClick { get; set; }
             public int DoubleClick { get; set; }
+            public int ClockWise { get; set; }
+            public int AntiClock { get; set; }
+            public int SwipeLeft { get; set; }
+            public int SwipeRight { get; set; }
+            public int SwipeUp { get; set; }
+            public int SwipeDown { get; set; }
         }
 
         // loading data from the settings.json
         private void LoadSettings()
         {
             appSettings = ReadSettings();
-            if (appSettings == null)
+            // check whether the new setting file is in the roaming folder
+            if (appSettings == null || (appSettings.SwipeLeft == 0 && appSettings.SwipeRight == 0 && appSettings.SwipeUp == 0 && appSettings.SwipeDown == 0))
             {
                 // First launch, create default settings
                 appSettings = new AppSettings
                 {
                     SingleClick = 0x27,
-                    DoubleClick = 0x25
+                    DoubleClick = 0x25,
+                    SwipeLeft = 0x21,
+                    SwipeRight = 0x22,
+                    SwipeUp = 0x26,
+                    SwipeDown = 0x28,
+                    ClockWise = 0xAF,
+                    AntiClock = 0xAE
                 };
 
                 // Save the default settings
@@ -321,10 +413,15 @@ namespace SPEN_To_PC_WindowsApp
                 //read from the file and assign values to variables
                 singleClick = appSettings.SingleClick;
                 doubleClick = appSettings.DoubleClick;
-                cur_singleClick.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
-                cur_doubleClick.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
-                SingleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
-                DoubleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+                swipeDown = appSettings.SwipeDown;
+                swipeUp = appSettings.SwipeUp;
+                swipeLeft = appSettings.SwipeLeft;
+                swipeRight = appSettings.SwipeRight;
+                antiClockWise = appSettings.AntiClock;
+                clockWise = appSettings.ClockWise;
+
+                // updating labels in home screen actions & Settings screens
+                updateKeys();
             }
         }
 
@@ -359,8 +456,7 @@ namespace SPEN_To_PC_WindowsApp
             try
             {
                 // Update the action label if the settings changed
-                SingleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(singleClick)}";
-                DoubleClickAction.Content = $"{KeyInterop.KeyFromVirtualKey(doubleClick)}";
+                updateKeys();
 
                 // Get the AppData Roaming directory
                 string appDataRoamingPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "SPENToPC");
@@ -386,6 +482,7 @@ namespace SPEN_To_PC_WindowsApp
         }
 
 
+        // keyboard related methods
         private void SimulateKeyPress(int keyCode)
         {
             keybd_event((byte)keyCode, 0, KEYEVENTF_EXTENDEDKEY, IntPtr.Zero);
@@ -395,45 +492,85 @@ namespace SPEN_To_PC_WindowsApp
 
 
         // capturing the key event for customizing the actions
-        private void Cap_singleClick_Click(object sender, RoutedEventArgs e)
+        private void ActionCapture(object sender, RoutedEventArgs e)
         {
-            StartKeyCapture(true);
-        }
-        private void Cap_doubleClick_Click(object sender, RoutedEventArgs e)
-        {
-            StartKeyCapture(false);
-        }
+            var buttonText = (sender as Button).Name;
+            if (buttonText.ToString().Contains("01"))
+            {
+                currentCapturing = "single";
+                Action01KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("02"))
+            {
+                currentCapturing = "double";
+                Action02KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("03"))
+            {
+                currentCapturing = "up";
+                Action03KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("04"))
+            {
+                currentCapturing = "down";
+                Action04KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("05"))
+            {
+                currentCapturing = "left";
+                Action05KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("06"))
+            {
+                currentCapturing = "right";
+                Action06KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("07"))
+            {
+                currentCapturing = "cw";
+                Action07KeyDisplay.Content = "Capturing...";
+            }
+            if (buttonText.ToString().Contains("08"))
+            {
+                currentCapturing = "ccw";
+                Action08KeyDisplay.Content = "Capturing...";
+            }
 
-        private void StartKeyCapture(bool isSingleClick)
-        {
-            // Disable the other capture button
-            if (isSingleClick)
-            {
-                isDoubleClickCapturing = false;
-                cap_singleClick.IsEnabled = false;
-                cap_doubleClick.IsEnabled = false;
-            }
-            else
-            {
-                isSingleClickCapturing = false;
-                cap_doubleClick.IsEnabled = false;
-                cap_singleClick.IsEnabled = false;
-            }
-
-            // Set capturing state
-            if (isSingleClick)
-            {
-                isSingleClickCapturing = true;
-                cur_singleClick.Content = "Capturing...";
-            }
-            else
-            {
-                isDoubleClickCapturing = true;
-                cur_doubleClick.Content = "Capturing...";
-            }
-
+            // Disable the capture buttons and dsiplay correctly
+            disableCaptureKeys(true);
             // Listen for key presses
             KeyDown += KeyCapture_KeyDown;
+        }
+
+        // Handling capture keys
+        private void disableCaptureKeys(bool state)
+        {
+            if (state)
+            {
+                // disables all capture keys
+                Action01CaptBtn.IsEnabled = false;
+                Action02CaptBtn.IsEnabled = false;
+                Action03CaptBtn.IsEnabled = false;
+                Action04CaptBtn.IsEnabled = false;
+                Action05CaptBtn.IsEnabled = false;
+                Action06CaptBtn.IsEnabled = false;
+                Action07CaptBtn.IsEnabled = false;
+                Action08CaptBtn.IsEnabled = false;
+
+            }
+            else
+            {
+                // reset back to default
+                Action01CaptBtn.IsEnabled = true;
+                Action02CaptBtn.IsEnabled = true;
+                Action03CaptBtn.IsEnabled = true;
+                Action04CaptBtn.IsEnabled = true;
+                Action05CaptBtn.IsEnabled = true;
+                Action06CaptBtn.IsEnabled = true;
+                Action07CaptBtn.IsEnabled = true;
+                Action08CaptBtn.IsEnabled = true;
+
+            }
         }
 
         private void KeyCapture_KeyDown(object sender, KeyEventArgs e)
@@ -443,41 +580,54 @@ namespace SPEN_To_PC_WindowsApp
             {
                 StopKeyCapture();
             }
-            if (isSingleClickCapturing)
-            {
-                // Update label and save key in appSettings
-                cur_singleClick.Content = $"{e.Key}";
-                appSettings.SingleClick = KeyInterop.VirtualKeyFromKey(e.Key);
-                singleClick = appSettings.SingleClick;
-                SaveSettings(appSettings);
 
-                // Stop capturing after capturing the key
-                StopKeyCapture();
-            }
-            else if (isDoubleClickCapturing)
+            switch (currentCapturing)
             {
-                // Update label and save key in appSettings
-                cur_doubleClick.Content = $"{e.Key}";
-                appSettings.DoubleClick = KeyInterop.VirtualKeyFromKey(e.Key);
-                doubleClick = appSettings.DoubleClick;
-                SaveSettings(appSettings);
-
-                // Stop capturing after capturing the key
-                StopKeyCapture();
+                case "single":
+                    Action01KeyDisplay.Content = $"{e.Key}";
+                    singleClick = appSettings.SingleClick = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "double":
+                    Action02KeyDisplay.Content = $"{e.Key}";
+                    doubleClick = appSettings.DoubleClick = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "up":
+                    Action03KeyDisplay.Content = $"{e.Key}";
+                    swipeUp = appSettings.SwipeUp = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "down":
+                    Action04KeyDisplay.Content = $"{e.Key}";
+                    swipeDown = appSettings.SwipeDown = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "left":
+                    Action05KeyDisplay.Content = $"{e.Key}";
+                    swipeLeft = appSettings.SwipeLeft = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "right":
+                    Action06KeyDisplay.Content = $"{e.Key}";
+                    swipeRight = appSettings.SwipeRight = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "cw":
+                    Action07KeyDisplay.Content = $"{e.Key}";
+                    clockWise = appSettings.ClockWise = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
+                case "ccw":
+                    Action08KeyDisplay.Content = $"{e.Key}";
+                    antiClockWise = appSettings.AntiClock = KeyInterop.VirtualKeyFromKey(e.Key);
+                    break;
             }
+
+            // Stop capturing after capturing the key
+            SaveSettings(appSettings);
+            StopKeyCapture();
         }
 
         private void StopKeyCapture()
         {
-            // Enable both capture buttons
-            cap_singleClick.IsEnabled = true;
-            cap_doubleClick.IsEnabled = true;
-
-            // Reset capturing state and labels
-            isSingleClickCapturing = false;
-            isDoubleClickCapturing = false;
-            cur_singleClick.Content = $"{KeyInterop.KeyFromVirtualKey(appSettings.SingleClick)}";
-            cur_doubleClick.Content = $"{KeyInterop.KeyFromVirtualKey(appSettings.DoubleClick)}";
+            // Enable capture buttons and update lables
+            disableCaptureKeys(false);
+            currentCapturing = "none";
+            updateKeys();
 
             // Stop listening for key presses
             KeyDown -= KeyCapture_KeyDown;

@@ -15,10 +15,26 @@
   <ItemGroup>
     <None Remove="app-logo.png" />
     <None Remove="app_icon_trans.ico" />
+    <None Remove="assets\ccw.png" />
+    <None Remove="assets\cw.png" />
+    <None Remove="assets\double.png" />
+    <None Remove="assets\down.png" />
+    <None Remove="assets\left.png" />
+    <None Remove="assets\right.png" />
+    <None Remove="assets\single.png" />
+    <None Remove="assets\Up.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="app_icon_trans.ico" />
+    <Resource Include="assets\ccw.png" />
+    <Resource Include="assets\cw.png" />
+    <Resource Include="assets\double.png" />
+    <Resource Include="assets\down.png" />
+    <Resource Include="assets\left.png" />
+    <Resource Include="assets\right.png" />
+    <Resource Include="assets\single.png" />
+    <Resource Include="assets\Up.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -88,10 +88,11 @@
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="5" />
+                    
                 </Style>
             </Style.Resources>
-            <Setter Property="Background" Value="#FF171717"/>
-            <Setter Property="Foreground" Value="#FFC3C3C3"/>
+            <Setter Property="Background" Value="#FF1B1B1B"/>
+            <Setter Property="Foreground" Value="#606060"/>
         </Style>
         <Style TargetType="Label" x:Key="CurrentActionActive">
             <Style.Resources>
