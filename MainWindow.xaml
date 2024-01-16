@@ -133,7 +133,7 @@
 
         <!-- Message Popup Section -->
         <Canvas x:Name="MessagePopup" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,10,0,14" Grid.RowSpan="3" d:IsHidden="True">
-            <Rectangle x:Name="MessageFullCanvas" Fill="Black" Opacity="0.8" Height="469" Width="825" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-15" Canvas.Top="-9"/>
+            <Rectangle x:Name="MessageFullCanvas" Fill="Black" Opacity="0.8" Height="489" Width="825" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-15" Canvas.Top="-12"/>
             <Rectangle x:Name="MessagePopupBG" Fill="#FF171717" RadiusX="15" RadiusY="15" Canvas.Left="179" Canvas.Top="41" Width="437" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Label x:Name="MessageTitleLbl" Content="Update Available!" Canvas.Left="205" Canvas.Top="65" Height="37" Foreground="#FFEFEFEF" HorizontalContentAlignment="Stretch" FontSize="18" FontWeight="Bold" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBlock x:Name="MessagePopupContent" Canvas.Left="205" TextWrapping="Wrap" Canvas.Top="119" Width="385" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="{Binding ActualHeight, ElementName=MessagePopupContent, Mode=OneWay}" />
