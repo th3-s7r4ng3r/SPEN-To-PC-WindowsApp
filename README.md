@@ -19,7 +19,8 @@ The SPEN To PC Windows App is developed in C# using the WPF framework. The main 
 - **IP Address Display:** The app displays the computer's IP address for connection reference.
 - **Navigation Panels:** Different panels, such as Home, Settings, and About, are available for users to navigate through the app.
 - **Key Capture:** Users can customize single-click and double-click actions by capturing keypress events.
-- **Advanced Installer:** For distributing the application, Advanded Installer for Visual Stuido is used to build the setup files.
+- **Check Updates:** At the event of launching the application, it checks the [backend server](https://github.com/th3-s7r4ng3r/SPEN-To-PC-Backend) for updates.
+- **Advanced Installer:** For distributing the application, Advanced Installer for Visual Studio is used to build the setup files.
 
 ## Developer Guide
 
@@ -28,7 +29,7 @@ The SPEN To PC Windows App is developed in C# using the WPF framework. The main 
 Ensure you have the following installed:
 - Visual Studio or any compatible C# development environment.
 - .NET 8.0 Framework.
-- Advanded Installer for Visual Stuido (Optional)
+- Advanced Installer for Visual Studio (Optional)
 
 ### Getting Started
 
