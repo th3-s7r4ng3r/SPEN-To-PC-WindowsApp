@@ -15,20 +15,21 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="15*"/>
-            <ColumnDefinition Width="195*"/>
-            <ColumnDefinition Width="602*"/>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="147*"/>
+            <ColumnDefinition Width="601*"/>
             <ColumnDefinition Width="15*"/>
         </Grid.ColumnDefinitions>
         <!-- Common section -->
         <!-- Common section -->
-        <Button x:Name="HomePageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Home" HorizontalAlignment="Left" Margin="7,12,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="HomePageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand"/>
-        <Button x:Name="SettingsPageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Settings" HorizontalAlignment="Left" Margin="7,59,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="SettingsPageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand"/>
-        <Button x:Name="AboutPageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="About" HorizontalAlignment="Left" Margin="7,385,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="AboutPageBtn_click"  Foreground="DarkGray" FontWeight="SemiBold" FontSize="16" BorderBrush="#FF1F1F1F" Cursor="Hand"/>
-        <Label Content="TH3 S7R4NG3R" FontSize="12" Foreground="#FF7B7B7B" HorizontalContentAlignment="Center" Grid.Column="1" Margin="0,330,0,0" Grid.Row="1" FontWeight="SemiBold" Height="25" VerticalAlignment="Top" Visibility="Hidden"/>
-        <Label Content="Developed by" FontSize="11" Foreground="#FF4C4C4C" HorizontalContentAlignment="Center" Grid.Column="1" Margin="0,312,0,0" Grid.Row="1" Height="43" VerticalAlignment="Top" Visibility="Hidden"/>
+        <Button x:Name="HomePageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Home" HorizontalAlignment="Left" Margin="7,12,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="HomePageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand" Grid.ColumnSpan="2"/>
+        <Button x:Name="SettingsPageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="Settings" HorizontalAlignment="Left" Margin="7,59,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="SettingsPageBtn_click" Foreground="White" FontWeight="SemiBold" FontSize="16" BorderBrush="{x:Null}" Cursor="Hand" Grid.ColumnSpan="2"/>
+        <Button x:Name="AboutPageBtn" Style="{DynamicResource NavBtns}" Grid.Column="1" Content="About" HorizontalAlignment="Left" Margin="7,385,0,0" Grid.Row="1" VerticalAlignment="Top" Height="41" Width="174" Click="AboutPageBtn_click"  Foreground="DarkGray" FontWeight="SemiBold" FontSize="16" BorderBrush="#FF1F1F1F" Cursor="Hand" Grid.ColumnSpan="2"/>
+        <Label Content="TH3 S7R4NG3R" FontSize="12" Foreground="#FF7B7B7B" HorizontalContentAlignment="Center" Grid.Column="1" Margin="0,330,0,0" Grid.Row="1" FontWeight="SemiBold" Height="25" VerticalAlignment="Top" Visibility="Hidden" Grid.ColumnSpan="2"/>
+        <Label Content="Developed by" FontSize="11" Foreground="#FF4C4C4C" HorizontalContentAlignment="Center" Grid.Column="1" Margin="0,312,0,0" Grid.Row="1" Height="43" VerticalAlignment="Top" Visibility="Hidden" Grid.ColumnSpan="2"/>
 
         <!-- Home Page section -->
-        <Canvas x:Name="HomePanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+        <Canvas x:Name="HomePanel" Grid.Column="3" Margin="10,25,0,14" Grid.RowSpan="3" d:IsHidden="True">
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Top" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
             <Label x:Name="IPTextLable" Style="{DynamicResource IPLable}" Content="" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="39" Height="71" Width="430" Foreground="White" Canvas.Left="78" Canvas.Top="195" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="SemiBold" Background="#FF121212"/>
             <Label x:Name="CurrentAction" Content="None" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Height="30" Width="227" Foreground="White" Canvas.Left="182" Canvas.Top="284" HorizontalContentAlignment="Center" Visibility="Collapsed"/>
@@ -63,7 +64,7 @@
         </Canvas>
 
         <!-- Settings Page section -->
-        <Canvas x:Name="SettingsPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+        <Canvas x:Name="SettingsPanel" Grid.Column="3" Margin="10,25,0,14" Grid.RowSpan="3" d:IsHidden="True">
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Center" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
             <Rectangle Height="38" Canvas.Left="47" Stroke="Black" Canvas.Top="233" Width="231" HorizontalAlignment="Left" VerticalAlignment="Center" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F"/>
             <Rectangle Height="38" Canvas.Left="47" Stroke="Black" Canvas.Top="279" Width="231" RadiusX="4.508" RadiusY="4.508" StrokeThickness="0" StrokeMiterLimit="11" Fill="#FF1F1F1F" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -112,9 +113,9 @@
         </Canvas>
 
         <!-- About Page section -->
-        <Canvas x:Name="AboutPanel" Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+        <Canvas x:Name="AboutPanel" Grid.Column="3" Margin="10,25,0,14" Grid.RowSpan="3" d:IsHidden="True">
             <Rectangle HorizontalAlignment="Center" Height="437" VerticalAlignment="Center" Width="582" Fill="#FF171717" RadiusX="15" RadiusY="15"/>
-            <Image Height="74" Canvas.Left="200" Canvas.Top="23" Width="185" Source="/app-logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image Height="74" Canvas.Left="198" Canvas.Top="27" Width="185" Source="/app-logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Button x:Name="GitHubLink" Style="{DynamicResource NavBtns}" Content="Check for Updates" Canvas.Left="122" Canvas.Top="391" Height="30" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" BorderBrush="#FF717171" Click="GitHubLink_Click"/>
             <Label x:Name="versionLable" Content="Version " Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="246" Canvas.Top="99" Height="29" Width="90" Foreground="#FFEFEFEF" HorizontalContentAlignment="Center" HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center" Background="#FF272727"/>
             <Button x:Name="ContactMeLink" Style="{DynamicResource NavBtns}" Content="Contact Me" Canvas.Left="247" Canvas.Top="391" Height="30" Width="89" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFB1B1B1" BorderThickness="1,1,1,1" Click="ContactMeLink_Click"/>
@@ -126,8 +127,18 @@
             <Label Content="Tab S6 or Newer" Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="297" Canvas.Top="200" Height="29" Width="124" HorizontalContentAlignment="Center" FontSize="14" Background="#FF121212" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF969494"/>
             <Label Content="S22 Ultra or Newer Ultra Models" Style="{DynamicResource ResourceKey=KeyMap}" Canvas.Left="181" Canvas.Top="235" Height="29" Width="224" HorizontalContentAlignment="Center" FontSize="14" Background="#FF121212" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF969494"/>
         </Canvas>
-        <Button x:Name="CloseBtn" Style="{DynamicResource CloseBtn}" Content="X" Width="23" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="557,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="CloseBtn_Click"/>
-        <Button x:Name="MinimizeBtn" Style="{DynamicResource CloseBtn}" Content="—" Width="22" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Margin="532,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="MinimizeBtn_Click" Padding="0,15,0,0"/>
+        <Button x:Name="CloseBtn" Style="{DynamicResource CloseBtn}" Content="X" Width="23" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="3" Margin="557,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="CloseBtn_Click"/>
+        <Button x:Name="MinimizeBtn" Style="{DynamicResource CloseBtn}" Content="—" Width="22" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="3" Margin="532,10,0,0" Grid.Row="1" Foreground="White" Cursor="Hand" Click="MinimizeBtn_Click" Padding="0,15,0,0"/>
+
+
+        <!-- Message Popup Section -->
+        <Canvas x:Name="MessagePopup" Grid.Column="1" Grid.ColumnSpan="3" Margin="0,10,0,14" Grid.RowSpan="3">
+            <Rectangle x:Name="MessageFullCanvas" Fill="Black" Opacity="0.8" Height="469" Width="825" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-15" Canvas.Top="-9"/>
+            <Rectangle x:Name="MessagePopupBG" Fill="#FF171717" RadiusX="15" RadiusY="15" Canvas.Left="179" Canvas.Top="41" Width="437" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label x:Name="MessageTitleLbl" Content="Update Available!" Canvas.Left="205" Canvas.Top="65" Height="37" Foreground="#FFEFEFEF" HorizontalContentAlignment="Stretch" FontSize="18" FontWeight="Bold" VerticalContentAlignment="Stretch" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBlock x:Name="MessagePopupContent" Canvas.Left="205" TextWrapping="Wrap" Canvas.Top="119" Width="385" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Height="{Binding ActualHeight, ElementName=MessagePopupContent, Mode=OneWay}" />
+            <Button x:Name="MessageActionButton" Style="{DynamicResource NavBtns}"  Content="OK" Height="35" BorderBrush="#FF5B5B5B" Canvas.Left="358" Canvas.Top="341" Foreground="#FFD8D6D6" Cursor="Hand" Click="MessageActionButtonClick" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="25,1,25,1" Width="80" Background="#FF333333" FontWeight="SemiBold" FontSize="13"/>
+        </Canvas>
 
     </Grid>
 

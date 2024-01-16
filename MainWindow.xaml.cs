@@ -1,6 +1,8 @@
-﻿using System.Diagnostics;
+﻿using Newtonsoft.Json;
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
@@ -9,6 +11,8 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 
 namespace SPEN_To_PC_WindowsApp
@@ -27,6 +31,7 @@ namespace SPEN_To_PC_WindowsApp
         AppSettings appSettings = new();
         private string currentCapturing = "none";
         private string appVersion = "1.0";
+        private ApiData apiData;
 
         // Other variables
         private const int KEYEVENTF_EXTENDEDKEY = 0x0001;
@@ -51,6 +56,7 @@ namespace SPEN_To_PC_WindowsApp
             //hiding UI panels
             SettingsPanel.Visibility = Visibility.Hidden;
             AboutPanel.Visibility = Visibility.Hidden;
+            MessagePopup.Visibility = Visibility.Hidden;
             versionLable.Content = "Version " + appVersion;
             KeyMapHint.Content = " Click the capture button and then press a key \n  to map that action to the selected Air Action. \n         Press ESC to cancel the mapping";
             HomePageBtn.Style = (Style)FindResource("NavBtnsActive"); //set home page as opening page
@@ -62,8 +68,7 @@ namespace SPEN_To_PC_WindowsApp
             _ = StartTcpListener();
 
             LoadSettings(); // Load settings on app startup
-            //singleClick = appSettings.SingleClick;
-            //doubleClick = appSettings.DoubleClick;
+            CheckForUpdates(); // check for updates
         }
 
         //get ip address of the pc
@@ -277,12 +282,12 @@ namespace SPEN_To_PC_WindowsApp
                 }
                 else if (data.Contains("cl_counterClockWise"))
                 {
-                    SimulateKeyPress(clockWise);
+                    SimulateKeyPress(antiClockWise);
                     _ = UpdateStyles("counterClock");   //update the UI
                 }
                 else if (data.Contains("cl_clockWise"))
                 {
-                    SimulateKeyPress(antiClockWise);
+                    SimulateKeyPress(clockWise);
                     _ = UpdateStyles("clockWise");   //update the UI
                 }
 
@@ -440,7 +445,7 @@ namespace SPEN_To_PC_WindowsApp
                 {
                     // Read the JSON data from the file and deserialize it to AppSettings
                     string json = File.ReadAllText(filePath);
-                    return JsonSerializer.Deserialize<AppSettings>(json);
+                    return System.Text.Json.JsonSerializer.Deserialize<AppSettings>(json);
                 }
             }
             catch (Exception ex)
@@ -470,7 +475,7 @@ namespace SPEN_To_PC_WindowsApp
                 string filePath = Path.Combine(appDataRoamingPath, SettingFileName);
 
                 // Serialize the AppSettings object to JSON
-                string json = JsonSerializer.Serialize(appSettings);
+                string json = System.Text.Json.JsonSerializer.Serialize(appSettings);
 
                 // Write the JSON data to the file
                 File.WriteAllText(filePath, json);
@@ -631,6 +636,65 @@ namespace SPEN_To_PC_WindowsApp
 
             // Stop listening for key presses
             KeyDown -= KeyCapture_KeyDown;
+        }
+
+
+        // relevent to checking app updates
+        public class ApiData
+        {
+            public string androidVersion { get; set; }
+            public string androidTitle { get; set; }
+            public string androidMessage { get; set; }
+            public string androidPositive { get; set; }
+            public string windowsVersion { get; set; }
+            public string windowsTitle { get; set; }
+            public string windowsMessage { get; set; }
+            public string windowsPositive { get; set; }
+
+        }
+        private async void CheckForUpdates()
+        {
+            try
+            {
+                using (HttpClient client = new HttpClient())
+                {
+                    // getting data from backend and convert ito to the object
+                    string result = await client.GetStringAsync("https://spentopc.onrender.com/updates");
+                    //string result = await client.GetStringAsync("http://localhost:8080/updates");
+                    apiData = JsonConvert.DeserializeObject<ApiData>(result);
+          
+                }
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"Error during fetching from backend: {ex.Message}");
+            }
+
+            if(apiData != null &&  apiData?.windowsVersion != appVersion)
+            {
+                // update content
+                MessageTitleLbl.Content = apiData?.windowsTitle;
+                MessagePopupContent.Text = apiData?.windowsMessage;
+                MessageActionButton.Content = apiData?.windowsPositive;
+
+                // adapt the size to the message
+                // get new size of the elements
+                MessagePopupContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                MessagePopupContent.Arrange(new Rect(0, 0, MessagePopupContent.DesiredSize.Width, MessagePopupContent.DesiredSize.Height));
+
+                // update to new sizes
+                MessagePopupBG.Height = (MessageTitleLbl.ActualHeight + MessagePopupContent.ActualHeight + MessageActionButton.ActualHeight + 100);
+                MessagePopupBG.SetValue(Canvas.TopProperty, (MessageFullCanvas.Height - MessagePopupBG.Height)/2);
+                MessageTitleLbl.SetValue(Canvas.TopProperty, Double.Parse(MessagePopupBG.GetValue(Canvas.TopProperty).ToString()) + 25);
+                MessagePopupContent.SetValue(Canvas.TopProperty, Double.Parse(MessageTitleLbl.GetValue(Canvas.TopProperty).ToString()) + MessageTitleLbl.ActualHeight + 20);
+                MessageActionButton.SetValue(Canvas.TopProperty, Double.Parse(MessagePopupBG.GetValue(Canvas.TopProperty).ToString()) + MessagePopupBG.Height - (MessageActionButton.ActualHeight + 15));
+
+                // display if has any updates
+                MessagePopup.Visibility = Visibility.Visible;
+            }
+        }
+        private void MessageActionButtonClick(object sender, RoutedEventArgs e)
+        {
+            MessagePopup.Visibility = Visibility.Hidden;
         }
 
 

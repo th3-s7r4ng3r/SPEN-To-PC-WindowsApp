@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Content Include="app_icon_trans.ico" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <Resource Include="assets\ccw.png" />
     <Resource Include="assets\cw.png" />
     <Resource Include="assets\double.png" />

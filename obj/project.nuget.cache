@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "rx8A+wUSxhpQMGqvO4TnBBuGoaqge0jdYNwcjfriR9H6v6UJXV/8i41Hp2Ayh5q5qi9yILO/Pc57czgAXyUWhA==",
+  "dgSpecHash": "l9ASvJRDwF8E8S7vEUps/N17JafFau38NMxbulEk5tO2PvSSzEC8tTvstTcIqzT5hb5J5u4iXqft4jbN80UTLw==",
   "success": true,
   "projectFilePath": "D:\\OneDrive - University of Sri Jayewardenepura Faculty of Technology\\GitHub Work\\projects\\SPEN-To-PC-WindowsApp\\SPEN-To-PC-WindowsApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\gvinu\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

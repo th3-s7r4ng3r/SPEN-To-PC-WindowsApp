@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SPEN To PC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d635a740302c67812e87dcc04f363c1a5c952062")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+353b02c3b4254c6fef50fcb8768c9a5e42428ddb")]
 [assembly: System.Reflection.AssemblyProductAttribute("SPEN To PC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SPEN To PC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
