@@ -30,7 +30,7 @@ namespace SPEN_To_PC_WindowsApp
         private const string SettingFileName = "settings.json";
         AppSettings appSettings = new();
         private string currentCapturing = "none";
-        private string appVersion = "1.0";
+        private string appVersion = "1.1";
         private ApiData apiData;
 
         // Other variables

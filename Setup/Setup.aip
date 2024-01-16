@@ -8,10 +8,12 @@
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PREREQ_REPAIR_ENABLED" MultiBuildValue="DefaultBuild:1"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Newtonsoft.Json.dll" Value="..\bin\Release\net8.0-windows\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_SPENToPC.deps.json" Value="..\bin\Release\net8.0-windows\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_SPENToPC.dll_1" Value="..\bin\Release\net8.0-windows\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_SPENToPC.exe" Value="..\bin\Release\net8.0-windows\publish"/>
     <ROW Property="AI_PROPPATH_DIR_PERBUILD_SPENToPC.runtimeconfig.json" Value="..\bin\Release\net8.0-windows\publish"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll" Value="Newtonsoft.Json.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.deps.json" Value="SPEN To PC.deps.json"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.dll_1" Value="SPEN To PC.dll"/>
     <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" Value="SPEN To PC.exe"/>
@@ -33,7 +35,7 @@
     <ROW Property="ProductCode" Value="1033:{1ECAF92E-8F66-43C6-AC7F-E8236DA19811} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="SPEN To PC"/>
-    <ROW Property="ProductVersion" Value="1.0" Options="32"/>
+    <ROW Property="ProductVersion" Value="1.1" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{BA28A565-0585-436B-AD4A-81FD0514D892}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
@@ -73,8 +75,10 @@
     <ROW File="SPENToPC.dll_1" Component_="SPENToPCWindowsApp_PrimaryOutput" FileName="SPENTO~2.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.dll_1]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_SPENToPC.dll_1&gt;" SelfReg="false"/>
     <ROW File="SPENToPC.exe" Component_="AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe" FileName="SPENTO~2.EXE|[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_SPENToPC.exe&gt;" SelfReg="false" DigSign="true"/>
     <ROW File="SPENToPC.runtimeconfig.json" Component_="SPENToPCWindowsApp_PrimaryOutput" FileName="SPENTO~3.JSO|[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.runtimeconfig.json]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_SPENToPC.runtimeconfig.json&gt;" SelfReg="false"/>
+    <ROW File="Newtonsoft.Json.dll" Component_="SPENToPCWindowsApp_PrimaryOutput" FileName="NEWTON~2.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Newtonsoft.Json.dll&gt;" SelfReg="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AppPathsComponent">
+    <ROW Name="AI_APPPATH_PERBUILD_Newtonsoft.Json.dll" Path="[|AI_PROPPATH_DIR_PERBUILD_Newtonsoft.Json.dll]\[|AI_PROPPATH_FILENAME_PERBUILD_Newtonsoft.Json.dll]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_SPENToPC.deps.json" Path="[|AI_PROPPATH_DIR_PERBUILD_SPENToPC.deps.json]\[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.deps.json]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_SPENToPC.dll_1" Path="[|AI_PROPPATH_DIR_PERBUILD_SPENToPC.dll_1]\[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.dll_1]" Type="2" Content="0"/>
     <ROW Name="AI_APPPATH_PERBUILD_SPENToPC.exe" Path="[|AI_PROPPATH_DIR_PERBUILD_SPENToPC.exe]\[|AI_PROPPATH_FILENAME_PERBUILD_SPENToPC.exe]" Type="2" Content="0"/>
@@ -321,5 +325,6 @@
     <ROW ProjectId="{6a380b17-2c06-421c-a7bb-f68231e995dc}" ProjectName="SPEN-To-PC-WindowsApp" OutputGroup="PublishOutput" OutputFile="SPENToPC.dll_1"/>
     <ROW ProjectId="{6a380b17-2c06-421c-a7bb-f68231e995dc}" ProjectName="SPEN-To-PC-WindowsApp" OutputGroup="PublishOutput" OutputFile="SPENToPC.exe"/>
     <ROW ProjectId="{6a380b17-2c06-421c-a7bb-f68231e995dc}" ProjectName="SPEN-To-PC-WindowsApp" OutputGroup="PublishOutput" OutputFile="SPENToPC.runtimeconfig.json"/>
+    <ROW ProjectId="{6a380b17-2c06-421c-a7bb-f68231e995dc}" ProjectName="SPEN-To-PC-WindowsApp" OutputGroup="PublishOutput" OutputFile="Newtonsoft.Json.dll"/>
   </COMPONENT>
 </DOCUMENT>

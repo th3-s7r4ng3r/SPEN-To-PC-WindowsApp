@@ -3,6 +3,8 @@ D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Wor
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\bin\Debug\net8.0-windows\SPEN To PC.runtimeconfig.json
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\bin\Debug\net8.0-windows\SPEN To PC.dll
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\bin\Debug\net8.0-windows\SPEN To PC.pdb
+D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
+D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.csproj.AssemblyReference.cache
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\MainWindow.g.cs
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\App.g.cs
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN To PC_Content.g.cs
@@ -16,11 +18,9 @@ D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Wor
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.AssemblyInfo.cs
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.csproj.CoreCompileInputs.cache
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.sourcelink.json
+D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.csproj.CopyComplete
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN To PC.dll
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\refint\SPEN To PC.dll
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN To PC.pdb
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.genruntimeconfig.cache
 D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\ref\SPEN To PC.dll
-D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.csproj.AssemblyReference.cache
-D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\bin\Debug\net8.0-windows\Newtonsoft.Json.dll
-D:\OneDrive - University of Sri Jayewardenepura Faculty of Technology\GitHub Work\projects\SPEN-To-PC-WindowsApp\obj\Debug\net8.0-windows\SPEN-To-PC-WindowsApp.csproj.CopyComplete
